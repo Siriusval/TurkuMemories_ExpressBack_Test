@@ -1,0 +1,10 @@
+h1 {
+    color : red;
+}
+
+.memory {
+    padding:12px;
+    background:#f9f9f9;
+    border:1px solid#ddd;
+    margin-bottom:24px;
+}

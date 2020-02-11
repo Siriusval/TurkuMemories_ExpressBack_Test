@@ -1,0 +1,84 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href=" css/style.css">
+</head>
+
+<header>
+    <!-- Bootstrap navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">MyTurkuMemories</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+                </li>
+                {{#user}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/account">Account</a>
+                </li>
+                {{/user}}
+                {{#user.isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin</a>
+                </li>
+                {{/user.isAdmin}}
+                {{#user}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/logout" style="color:red;">Logout</a>
+                </li>
+                {{/user}}
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<body>
+    <div class="container">
+        <h1>Welcome to my turku memories</h1>
+
+        <h2>Register</h2>
+        <!-- Register form -->
+        <form action="/register" method="post">
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Sign Up">
+        </form>
+
+
+        <h2>Login</h2>
+        <!-- Login form -->
+        <form action="/login" method="post">
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Login">
+        </form>
+
+
+        <h2>Forgot password?</h2>
+        <!-- Forgot password form -->
+        <form action="/account/resetpassword" method="post">
+            <input type="email" name="email" placeholder="Enter your email" required><br>
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+</body>
+
+</html>
