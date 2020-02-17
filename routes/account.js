@@ -1,8 +1,8 @@
 /**
  * ROUTE
- * Account : /account endpoints 
+ * Account : /account endpoints
  * page where you can and/or remove memories from your favorites
- * 
+ *
  *  (get) : '/'
  *  (get) : '/addmemory/:memoryid'
  *  (get) : '/addfavoritememory/:memoryid'
@@ -21,19 +21,18 @@ const Memory = require('../models/Memory');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-
 /* --- FUNCTIONS --- */
-const randomString = (length) => {
+const randomString = length => {
     let text = '';
-    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possible =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length))
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
     return text;
 };
-
 
 /* --- ENDPOINTS --- */
 
@@ -63,17 +62,12 @@ router.get('/', (req, res, next) => {
             const data = {
                 user: user,
                 memories: memories,
-                interested: interestedMemories
+                interested: interestedMemories,
             };
 
             res.render('account', data);
         });
-
-
-
-
     });
-
 });
 
 /**
@@ -102,7 +96,6 @@ router.get('/addfavoritememory/:memoryid', (req, res, next) => {
             memory.interested.push(user._id);
             memory.save();
 
-
             console.log('AddFavoriteMemory : redirect');
 
             res.redirect('/account');
@@ -121,14 +114,13 @@ router.post('/addmemory', (req, res, next) => {
         return;
     }
 
-    Memory.create(req.body, (err) => {
+    Memory.create(req.body, err => {
         if (err) {
             return next(err);
         }
 
         res.redirect('/account');
     });
-
 });
 
 /**
@@ -148,15 +140,12 @@ router.get('/removefavoritememory/:memoryid', (req, res, next) => {
             return next(err);
         }
 
-
         memory.interested.pop(user._id);
         memory.save();
 
         res.redirect('/account');
     });
 });
-
-
 
 /**
  * (get) : '/logout'
@@ -165,7 +154,6 @@ router.get('/removefavoritememory/:memoryid', (req, res, next) => {
 router.get('/logout', (req, res, next) => {
     req.logout();
     res.redirect('/');
-
 });
 
 /**
@@ -173,7 +161,6 @@ router.get('/logout', (req, res, next) => {
  * Send a mail to reset password
  */
 router.post('/resetpassword', (req, res, next) => {
-
     //find user with this email
     User.findOne({ email: req.body.email }, (err, user) => {
         if (err) {
@@ -193,7 +180,7 @@ router.post('/resetpassword', (req, res, next) => {
         //Mailgun api config
         const mailgun = Mailgun({
             apiKey: '***REMOVED***',
-            domain: '***REMOVED***'
+            domain: '***REMOVED***',
         });
 
         const data = {
@@ -201,7 +188,7 @@ router.post('/resetpassword', (req, res, next) => {
             from: '***REMOVED***',
             sender: 'MyTurkuMemories',
             subject: 'Password Reset Request',
-            html: `Please click <a style="color:red" href="http://localhost:5000/account/password-reset?nonce=${user.nonce}&id=${user._id}">HERE</a> to reset your password. This link is valid for 24 hours`
+            html: `Please click <a style="color:red" href="http://localhost:5000/account/password-reset?nonce=${user.nonce}&id=${user._id}">HERE</a> to reset your password. This link is valid for 24 hours`,
         };
 
         //Send mail
@@ -212,18 +199,13 @@ router.post('/resetpassword', (req, res, next) => {
 
             const data = {
                 title: 'Email Sent',
-                message: "Please check your email\nClick on the link to reset your password."
+                message:
+                    'Please check your email\nClick on the link to reset your password.',
             };
             //success
             res.render('message', data);
-
         });
-
-
-
     });
-
-
 });
 
 /**
@@ -239,7 +221,6 @@ router.get('/password-reset', (req, res, next) => {
     }
 
     User.findById(user_id, (err, user) => {
-
         //if user id doesn't exist
         if (err) {
             return next(new Error('Invalid request'));
@@ -257,7 +238,7 @@ router.get('/password-reset', (req, res, next) => {
 
         //check timestamp
         const now = new Date();
-        const diff = now - user.passwordResetTime //time in ms
+        const diff = now - user.passwordResetTime; //time in ms
         const seconds = diff / 1000;
 
         if (seconds > 24 * 60 * 60) {
@@ -267,12 +248,10 @@ router.get('/password-reset', (req, res, next) => {
         //render reset pass page
         const data = {
             id: user_id,
-            nonce: nonce
-        }
+            nonce: nonce,
+        };
         res.render('password-reset', data);
-
     });
-
 });
 
 /**
@@ -285,14 +264,18 @@ router.post('/newpassword', (req, res, next) => {
     const nonce = req.body.nonce;
     const user_id = req.body.id;
 
-    if (password1 == null || password2 == null || nonce == null || user_id == null) {
+    if (
+        password1 == null ||
+        password2 == null ||
+        nonce == null ||
+        user_id == null
+    ) {
         return next(new Error('Invalid Request'));
     }
 
-
     //check password match
     if (password1 != password2) {
-        return next(new Error('Passwords do not match.'))
+        return next(new Error('Passwords do not match.'));
     }
 
     User.findById(user_id, (err, user) => {
@@ -312,7 +295,7 @@ router.post('/newpassword', (req, res, next) => {
 
         //check timestamp
         const now = new Date();
-        const diff = now - user.passwordResetTime //time in ms
+        const diff = now - user.passwordResetTime; //time in ms
         const seconds = diff / 1000;
 
         if (seconds > 24 * 60 * 60) {
@@ -333,12 +316,11 @@ router.post('/newpassword', (req, res, next) => {
 
         const data = {
             title: 'Password changed',
-            message: "Please log in"
+            message: 'Please log in',
         };
         //success
         res.render('message', data);
-    })
+    });
 });
-
 
 module.exports = router;

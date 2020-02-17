@@ -2,7 +2,7 @@
  * ROUTE
  * Register : /register endpoint
  * register the user using passport strategy(in auth.js)
- * 
+ *
  *  (post) : '/'
  */
 
@@ -16,8 +16,11 @@ const passport = require('passport');
  * (post) : '/'
  * Register the user, then redirect to /account page
  */
-router.post('/', passport.authenticate('localRegister', {
-    successRedirect: '/account'
-}));
+router.post(
+    '/',
+    passport.authenticate('localRegister', {
+        successRedirect: '/account',
+    })
+);
 
 module.exports = router;

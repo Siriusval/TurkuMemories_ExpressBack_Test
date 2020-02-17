@@ -2,7 +2,7 @@
  * ROUTE
  * Login : /login endpoint
  * log the user using passport strategy(in auth.js)
- * 
+ *
  *  (post) : '/'
  */
 
@@ -16,8 +16,11 @@ const passport = require('passport');
  * (post) : '/'
  * Log the user, then redirect to /account page
  */
-router.post('/', passport.authenticate('localLogin', {
-    successRedirect: '/account'
-}));
+router.post(
+    '/',
+    passport.authenticate('localLogin', {
+        successRedirect: '/account',
+    })
+);
 
 module.exports = router;

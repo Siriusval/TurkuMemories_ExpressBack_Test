@@ -1,21 +1,28 @@
 {
-  "name": "my_turku_memories_nodejs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "hjs": "0.0.6",
-    "mailgun-js": "^0.22.0",
-    "mongoose": "^5.8.6",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-  }
+    "name": "my_turku_memories_nodejs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "hjs": "0.0.6",
+        "mailgun-js": "^0.22.0",
+        "mongoose": "^5.8.6",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0"
+    },
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": true,
+        "printWidth": 80
+    }
 }

@@ -1,8 +1,8 @@
 /**
  * ROUTE
- * Admin : /admin endpoints 
+ * Admin : /admin endpoints
  * page where you can and/or remove memories from the catalog displayed to users
- * 
+ *
  *  (get) : '/'
  *  (get) : '/removefavoritememory/:memoryid'
  */
@@ -39,15 +39,12 @@ router.get('/', (req, res, next) => {
 
         const data = {
             user: user,
-            memories: memories
+            memories: memories,
         };
 
         res.render('admin', data);
     });
-
 });
-
-
 
 /**
  * (get) : '/removefavoritememory/:memoryid'
@@ -73,8 +70,6 @@ router.get('/removefavoritememory/:memoryid', (req, res, next) => {
 
         res.redirect('/admin');
     });
-
 });
-
 
 module.exports = router;
