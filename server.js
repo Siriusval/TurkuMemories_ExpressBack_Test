@@ -2,7 +2,7 @@
  * MAIN
  * Server
  * Instantiate all the routes and app settings for the webapp
- * 
+ *
  */
 
 /* --- IMPORTS --- */
@@ -11,6 +11,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+require('dotenv').config();
 
 /* --- FUNCTIONS --- */
 const auth = require('./config/auth')(passport);
@@ -23,10 +24,10 @@ const account = require('./routes/account');
 const admin = require('./routes/admin');
 
 /* --- DATABASE --- */
-mongoose.connect('***REMOVED***', (err, data) => {
+mongoose.connect(process.env.MONGODB_URL, (err, data) => {
     if (err) {
         console.log('DB Connection Failed');
-        return
+        return;
     }
 
     console.log('DB Connection Success');
@@ -37,11 +38,13 @@ mongoose.connect('***REMOVED***', (err, data) => {
 const app = express();
 
 //Use session
-app.use(session({
-    secret: '***REMOVED***',
-    resave: true,
-    saveUninitialized: true
-}));
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: true,
+        saveUninitialized: true,
+    })
+);
 
 //Use passport to signIN/OUT/UP
 app.use(passport.initialize());

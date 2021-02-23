@@ -22,7 +22,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 /* --- FUNCTIONS --- */
-const randomString = length => {
+const randomString = (length) => {
     let text = '';
     const possible =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -114,7 +114,7 @@ router.post('/addmemory', (req, res, next) => {
         return;
     }
 
-    Memory.create(req.body, err => {
+    Memory.create(req.body, (err) => {
         if (err) {
             return next(err);
         }
@@ -179,13 +179,13 @@ router.post('/resetpassword', (req, res, next) => {
 
         //Mailgun api config
         const mailgun = Mailgun({
-            apiKey: '***REMOVED***',
-            domain: '***REMOVED***',
+            apiKey: process.env.MAILGUN_APIKEY,
+            domain: process.env.MAILGUN_DOMAIN,
         });
 
         const data = {
             to: req.body.email,
-            from: '***REMOVED***',
+            from: process.env.FROM_MAIL,
             sender: 'MyTurkuMemories',
             subject: 'Password Reset Request',
             html: `Please click <a style="color:red" href="http://localhost:5000/account/password-reset?nonce=${user.nonce}&id=${user._id}">HERE</a> to reset your password. This link is valid for 24 hours`,
